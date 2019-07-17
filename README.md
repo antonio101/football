@@ -8,6 +8,7 @@ Mainly, you can make nexts requests:
 ### CSV file
 
 By default, we have to save our CSV file, called **Data.csv**, on the root folder of the project. The scructure must be a CSV separated with commas and with the headings and content like the next example:
+
 |  | Div | Season | Date | HomeTeam | AwayTeam | FTHG | FTAG | FTR | HTHG | HTAG | HTR |
 | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
 | 1 | SP1 | 201617 | 19/08/2016 | La Coruna | Eibar | 2 | 1 | H | 0 | 0 | D | 
