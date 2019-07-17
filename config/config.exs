@@ -37,4 +37,6 @@ use Mix.Config
 #   ]
 # end
 
+config :mix_docker, image: "-t antonio101/football:latest"
+
 import_config "#{Mix.env()}.exs"
