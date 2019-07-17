@@ -43,7 +43,7 @@ The requests have to be called via http://localhost:4001.
 | Call description |  Get a list of results for a specific league and season pair. | 
 | URL |  /leagues | 
 | Method: |  GET | 
-| Data Params |  div (required)<br>season (required)<br>Example: div=SP2&season=201617 | 
+| Data Params |  div (required)<br>season (required)<br>`Example: div=SP2&season=201617` | 
 | Response |  [{"AwayTeam":"Getafe","Date":"12/05/2017","FTAG":"1","FTHG":"2","FTR":"H","HTAG":"0","HTHG":"1","HTR":"H","HomeTeam":"Sevilla B"}] | 
 
 ### Status Codes
