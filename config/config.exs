@@ -37,6 +37,6 @@ use Mix.Config
 #   ]
 # end
 
-config :mix_docker, image: "-t antonio101/football:latest"
+config :mix_docker, image: "-t antonio101/football:tag"
 
 import_config "#{Mix.env()}.exs"
