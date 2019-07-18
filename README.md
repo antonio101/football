@@ -56,3 +56,12 @@ Football returns the following status codes in its API:
 | 404 | `NOT FOUND` |
 | 500 | `INTERNAL SERVER ERROR` |
 
+
+## Launch with Docker
+
+```sh
+# docker login
+# docker pull "antonio101/football"
+# docker run -it -p 4001:4001 antonio101/football:latest
+```
+

@@ -19,6 +19,7 @@ RUN mkdir project/ \
     && cd project \
     && git clone https://github.com/antonio101/football.git \
     && cd football \
+    && chmod +x run_app.sh \
     && mix local.hex --force \
     && mix local.rebar --force \
     && mix deps.get \
