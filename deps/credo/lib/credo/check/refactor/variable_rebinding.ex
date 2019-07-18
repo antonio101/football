@@ -38,7 +38,12 @@ defmodule Credo.Check.Refactor.VariableRebinding do
         params! = do_yet_another_thing(params!)
       end
   """
-  @explanation [check: @checkdoc]
+  @explanation [
+    check: @checkdoc,
+    params: [
+      allow_bang: "Variables with a bang suffix will be ignored."
+    ]
+  ]
 
   use Credo.Check
 
@@ -49,7 +54,7 @@ defmodule Credo.Check.Refactor.VariableRebinding do
     Credo.Code.prewalk(source_file, &traverse(&1, &2, issue_meta))
   end
 
-  def traverse([do: {:__block__, _, ast}], issues, {_, _, opt} = issue_meta) do
+  defp traverse([do: {:__block__, _, ast}], issues, {_, _, opt} = issue_meta) do
     variables =
       ast
       |> Enum.map(&find_assignments/1)
@@ -78,7 +83,7 @@ defmodule Credo.Check.Refactor.VariableRebinding do
     end
   end
 
-  def traverse(ast, issues, _issue_meta) do
+  defp traverse(ast, issues, _issue_meta) do
     {ast, issues}
   end
 
@@ -93,11 +98,11 @@ defmodule Credo.Check.Refactor.VariableRebinding do
   end
 
   # ignore pinned variables
-  defp find_variables({:::, _, [{:^, _, _} | _]}) do
+  defp find_variables({:"::", _, [{:^, _, _} | _]}) do
     []
   end
 
-  defp find_variables({:::, _, [lhs | _rhs]}) do
+  defp find_variables({:"::", _, [lhs | _rhs]}) do
     find_variables(lhs)
   end
 

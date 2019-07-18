@@ -1,6 +1,6 @@
 {application,cowboy,
              [{description,"Small, fast, modern HTTP server."},
-              {vsn,"2.6.1"},
+              {vsn,"2.6.3"},
               {modules,[cowboy,cowboy_app,cowboy_bstr,cowboy_children,
                         cowboy_clear,cowboy_clock,cowboy_compress_h,
                         cowboy_constraints,cowboy_handler,cowboy_http,

@@ -1,7 +1,7 @@
 defmodule Plug.Cowboy.MixProject do
   use Mix.Project
 
-  @version "2.0.1"
+  @version "2.1.0"
   @description "A Plug adapter for Cowboy"
 
   def project do
@@ -17,7 +17,8 @@ defmodule Plug.Cowboy.MixProject do
         main: "Plug.Cowboy",
         source_ref: "v#{@version}",
         source_url: "https://github.com/elixir-plug/plug_cowboy"
-      ]
+      ],
+      aliases: aliases()
     ]
   end
 
@@ -33,9 +34,10 @@ defmodule Plug.Cowboy.MixProject do
     [
       {:plug, "~> 1.7"},
       {:cowboy, "~> 2.5"},
-      {:ex_doc, "~> 0.19.1", only: :docs},
+      {:ex_doc, "~> 0.20", only: :docs},
       {:hackney, "~> 1.2.0", only: :test},
-      {:kadabra, "0.3.4", only: :test}
+      {:kadabra, "0.3.4", only: :test},
+      {:x509, "~> 0.6.0", only: :test}
     ]
   end
 
@@ -45,5 +47,11 @@ defmodule Plug.Cowboy.MixProject do
       maintainers: ["José Valim", "Gary Rennie"],
       links: %{"GitHub" => "https://github.com/elixir-plug/plug_cowboy"}
     }
+  end
+
+  defp aliases do
+    [
+      test: ["x509.gen.suite -f -p cowboy -o test/fixtures/ssl", "test"]
+    ]
   end
 end

@@ -11,9 +11,6 @@
 ## Enable kernel poll and a few async threads
 ##+K true
 ##+A 5
-## For OTP21+, the +A flag is not used anymore,
-## +SDio replace it to use dirty schedulers
-##+SDio 5
 
 ## Increase number of concurrent ports/sockets
 ##-env ERL_MAX_PORTS 4096

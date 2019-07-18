@@ -18,7 +18,6 @@ defmodule MyPlug do
 
   def init(options) do
     # initialize options
-
     options
   end
 
@@ -38,7 +37,7 @@ The snippet above shows a very simple example on how to use Plug. Save that snip
     iex> {:ok, _} = Plug.Cowboy.http MyPlug, []
     {:ok, #PID<...>}
 
-Access "http://localhost:4000/" and we are done! For now, we have directly started the server in our terminal but, for production deployments, you likely want to start it in your supervision tree. See the "Supervised handlers" section below.
+Access [http://localhost:4000/](http://localhost:4000/) and we are done! For now, we have directly started the server in our terminal but, for production deployments, you likely want to start it in your supervision tree. See the [Supervised handlers](#supervised-handlers) section below.
 
 ## Installation
 
@@ -56,10 +55,13 @@ end
 
 | Branch | Support                  |
 | ------ | ------------------------ |
-| v1.6   | Bug fixes                |
+| v1.8   | Bug fixes                |
+| v1.7   | Security patches only    |
+| v1.6   | Security patches only    |
 | v1.5   | Security patches only    |
-| v1.4   | Security patches only    |
-| v1.3   | Security patches only    |
+| v1.4   | Unsupported from 12/2018 |
+| v1.3   | Unsupported from 12/2018 |
+| v1.2   | Unsupported from 06/2018 |
 | v1.2   | Unsupported from 06/2018 |
 | v1.1   | Unsupported from 01/2018 |
 | v1.0   | Unsupported from 05/2017 |
@@ -217,6 +219,7 @@ This project aims to ship with different plugs that can be re-used across applic
   * `Plug.Session` - handles session management and storage;
   * `Plug.SSL` - enforces requests through SSL;
   * `Plug.Static` - serves static files;
+  * `Plug.Telemetry` - instruments the plug pipeline with `:telemetry` events;
 
 You can go into more details about each of them [in our docs](http://hexdocs.pm/plug/).
 
@@ -231,9 +234,7 @@ Modules that can be used after you use `Plug.Router` or `Plug.Builder` to help d
 
 We welcome everyone to contribute to Plug and help us tackle existing issues!
 
-Use the [issue tracker][issues] for bug reports or feature requests. You may also start a discussion on the [mailing list][ML] or the **[#elixir-lang][IRC]** channel on [Freenode][freenode] IRC. Open a [pull request][pulls] when you are ready to contribute.
-
-When submitting a pull request you should not update the `CHANGELOG.md`.
+Use the [issue tracker][issues] for bug reports or feature requests. Open a [pull request][pulls] when you are ready to contribute. When submitting a pull request you should not update the `CHANGELOG.md`.
 
 If you are planning to contribute documentation, [please check our best practices for writing documentation][writing-docs].
 
@@ -246,9 +247,5 @@ Check LICENSE file for more information.
 
   [issues]: https://github.com/elixir-plug/plug/issues
   [pulls]: https://github.com/elixir-plug/plug/pulls
-  [ML]: https://groups.google.com/group/elixir-lang-core
   [code-of-conduct]: https://github.com/elixir-lang/elixir/blob/master/CODE_OF_CONDUCT.md
   [writing-docs]: https://hexdocs.pm/elixir/writing-documentation.html
-  [IRC]: https://webchat.freenode.net/?channels=#elixir-lang
-  [freenode]: https://freenode.net/
-  [cowboy]: https://github.com/ninenines/cowboy

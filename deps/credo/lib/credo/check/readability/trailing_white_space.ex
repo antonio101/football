@@ -20,6 +20,7 @@ defmodule Credo.Check.Readability.TrailingWhiteSpace do
 
   alias Credo.Code
   alias Credo.Code.Strings
+  alias Credo.Code.Heredocs
 
   @doc false
   def run(source_file, params \\ []) do
@@ -33,8 +34,8 @@ defmodule Credo.Check.Readability.TrailingWhiteSpace do
 
   defp to_lines(source_file, true) do
     source_file
-    |> SourceFile.source()
     |> Strings.replace_with_spaces(".")
+    |> Heredocs.replace_with_spaces(".", ".", ".", source_file.filename)
     |> Code.to_lines()
   end
 
@@ -57,7 +58,7 @@ defmodule Credo.Check.Readability.TrailingWhiteSpace do
 
   defp traverse_line([], issues, _issue_meta), do: issues
 
-  def issue_for(issue_meta, line_no, column, line_length) do
+  defp issue_for(issue_meta, line_no, column, line_length) do
     format_issue(
       issue_meta,
       message: "There should be no trailing white-space at the end of a line.",

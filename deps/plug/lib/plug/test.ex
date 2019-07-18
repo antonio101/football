@@ -38,6 +38,10 @@ defmodule Plug.Test do
   value that implements `to_string/1` and it will properly converted and
   normalized (e.g., `:get` or `"post"`).
 
+  The `path` is commonly the request path with optional query string but it may
+  also be a complete URI. When a URI is given, the host and schema will be used
+  as part of the request too.
+
   The `params_or_body` field must be one of:
 
   * `nil` - meaning there is no body;

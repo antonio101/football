@@ -4,7 +4,6 @@ defmodule Football.LoadData do
   """
   @csv_location Application.get_env(:football, :csv_location)
   @ets_name :football_matches
-  
 
   defmodule State do
     @moduledoc """
@@ -56,18 +55,18 @@ defmodule Football.LoadData do
     if !File.exists?(@csv_location) do
       %Error{reason: "Unable to read CSV file.", state: state}
     end
-    
+
     state
   end
 
   # Read CSV file and get its content
   defp load_csv_content(%State{} = state) do
-    csv_content = 
+    csv_content =
       @csv_location
       |> Path.expand
       |> File.stream!
       |> CSV.decode(separator: ?,, headers: true)
-      
+
     %State{state | csv_content: csv_content}
   end
   defp load_csv_content(%Error{} = error), do: error
@@ -101,7 +100,7 @@ defmodule Football.LoadData do
 
   @spec return_result(%State{} | %Error{}) :: atom | tuple
   # Return result (success)
-  defp return_result(%State{} = state) do
+  defp return_result(%State{}) do
     :ok
   end
   # Return result (fail)

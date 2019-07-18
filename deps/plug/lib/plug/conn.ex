@@ -133,8 +133,9 @@ defmodule Plug.Conn do
   @type int_status :: non_neg_integer | nil
   @type owner :: pid
   @type method :: binary
-  @type param :: binary | %{binary => param} | [param]
-  @type params :: %{binary => param}
+  @type query_param :: binary | %{binary => query_param} | [query_param]
+  @type query_params :: %{binary => query_param}
+  @type params :: %{binary => term}
   @type port_number :: :inet.port_number()
   @type query_string :: String.t()
   @type resp_cookies :: %{binary => %{}}
@@ -155,10 +156,10 @@ defmodule Plug.Conn do
           owner: owner,
           params: params | Unfetched.t(),
           path_info: segments,
-          path_params: params,
+          path_params: query_params,
           port: :inet.port_number(),
           private: assigns,
-          query_params: params | Unfetched.t(),
+          query_params: query_params | Unfetched.t(),
           query_string: query_string,
           remote_ip: :inet.ip_address(),
           req_cookies: cookies | Unfetched.t(),
@@ -796,7 +797,7 @@ defmodule Plug.Conn do
 
   ## Examples
 
-      Plug.Conn.prepend_resp_headers(conn, "content-type", "application/json")
+      Plug.Conn.prepend_resp_headers(conn, [{"content-type", "application/json"}])
 
   """
   @spec prepend_resp_headers(t, headers) :: t
@@ -1417,7 +1418,25 @@ defmodule Plug.Conn do
   end
 
   @doc """
-  Deletes the session for the given `key`.
+  Returns the whole session.
+
+  Although `get_session/2` and `put_session/3` allow atom keys,
+  they are always normalized to strings. So this function always
+  returns a map with string keys.
+
+  Raises if the session was not yet fetched.
+  """
+  @spec get_session(t) :: %{String.t() => any}
+  def get_session(%Conn{private: private}) do
+    if session = Map.get(private, :plug_session) do
+      session
+    else
+      raise ArgumentError, "session not fetched, call fetch_session/2"
+    end
+  end
+
+  @doc """
+  Deletes `key` from session.
 
   The key can be a string or an atom, where atoms are
   automatically converted to strings.
@@ -1567,14 +1586,6 @@ defmodule Plug.Conn do
 
   defp session_key(binary) when is_binary(binary), do: binary
   defp session_key(atom) when is_atom(atom), do: Atom.to_string(atom)
-
-  defp get_session(%Conn{private: private}) do
-    if session = Map.get(private, :plug_session) do
-      session
-    else
-      raise ArgumentError, "session not fetched, call fetch_session/2"
-    end
-  end
 
   defp put_session(conn, fun) do
     private =

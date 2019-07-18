@@ -14,7 +14,7 @@ defmodule Football.Web.LeaguesController do
     """
     defstruct [
       :conn,         # Connection
-      :params,       # We will save only the parameters that we need from the URL 
+      :params,       # We will save only the parameters that we need from the URL
       :matches_data, # Matches data with all data
       :matches,      # Matches data with only the data that we want
     ]
@@ -53,26 +53,26 @@ defmodule Football.Web.LeaguesController do
     params =
       conn.query_string
       |> URI.decode_query()
-    
+
     params_we_want = %{
       "div"    => params["div"],
       "season" => params["season"]
     }
-    
+
     %State{state | params: params_we_want}
   end
 
   # Retrieve the matches' content from an ETS table that match with the parameters
-  defp get_data_that_matches_from_ets(%State{params: %{"div" => div, "season" => season}} = state) 
+  defp get_data_that_matches_from_ets(%State{params: %{"div" => div, "season" => season}} = state)
   when is_binary(div) and byte_size(div) > 0 and is_binary(season) and byte_size(season) > 0 do
 
     matches_data = :ets.match_object(@ets_name, {
-      :"_", %{
+      :_, %{
         "Div"    => div,
         "Season" => season
       }
     })
-    
+
     %State{state | matches_data: matches_data}
   end
 
@@ -83,8 +83,8 @@ defmodule Football.Web.LeaguesController do
 
   # We have all matches' data, but we don't need to show all data
   defp format_obtained_content(%State{matches_data: matches_data} = state) do
-    
-    matches = 
+
+    matches =
       # Loopping the matches
       Enum.reduce(matches_data, [], fn {_key, match}, acc ->
 

@@ -33,26 +33,26 @@ defmodule Football.Web.PairsController do
 
   # Retrieve all matches' content from an ETS table
   def get_data_from_ets(%State{} = state) do
-    matches_data = get_ets_data(@ets_name) 
+    matches_data = get_ets_data(@ets_name)
     %State{state | matches_data: matches_data}
   end
- 
+
   # We will get a list of seasons and their divisions inside. We will return a list of name + division + their name
   defp find_divs_and_seasons(%State{} = state) do
 
     # Getting data obainted previously from an ETS
     divs_with_seasons = find_divs_with_seasons(state.matches_data)
 
-    all_divs_and_seasons = 
+    all_divs_and_seasons =
 
       # Loopping all divisions and their seasons inside
       Enum.reduce(divs_with_seasons, [], fn {div, seasons}, acc ->
-        
-        div_and_seasons = 
+
+        div_and_seasons =
 
           # Loopping all seasons inside a division
           Enum.reduce(seasons, [], fn season, acc2 ->
-            
+
             # We generate its name
             name = div_name(div) <> " " <> div_years(season)
 
@@ -71,7 +71,7 @@ defmodule Football.Web.PairsController do
 
   # From all data obtained in CSV file, we will get a list of seasons and divisions
   defp find_divs_with_seasons(matches_data) do
-    
+
     Enum.reduce(matches_data, %{}, fn {_key, %{"Div" => div, "Season" => season}}, acc ->
 
       # If the map contains this division

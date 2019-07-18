@@ -11,7 +11,7 @@ defmodule Football.Tests.PairsControllerTest do
     conn = conn(:get, "/pairs")
     resp = PairsController.init(conn)
     decoded_resp = Jason.decode!(resp.resp_body)
-    
+
     expected_resp = [
       %{"div" => "D1",  "name" => "Bundesliga 2016-2017",  "season" => "201617"},
       %{"div" => "E0",  "name" => "Premier League 2016-2017",  "season" => "201617"},
@@ -24,5 +24,4 @@ defmodule Football.Tests.PairsControllerTest do
     assert decoded_resp == expected_resp
   end
 
-  
 end

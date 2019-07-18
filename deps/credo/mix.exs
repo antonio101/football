@@ -4,8 +4,8 @@ defmodule Credo.Mixfile do
   def project do
     [
       app: :credo,
-      version: "1.0.2",
-      elixir: ">= 1.4.0",
+      version: "1.1.1",
+      elixir: ">= 1.5.0",
       escript: [main_module: Credo.CLI],
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
@@ -25,10 +25,11 @@ defmodule Credo.Mixfile do
       files: [
         ".credo.exs",
         ".template.check.ex",
+        "debug-template.html",
         "lib",
+        "LICENSE",
         "mix.exs",
-        "README.md",
-        "LICENSE"
+        "README.md"
       ],
       maintainers: ["René Föhring"],
       licenses: ["MIT"],

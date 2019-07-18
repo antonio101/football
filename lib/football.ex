@@ -17,7 +17,7 @@ defmodule Football do
         options: [port: 4001]
       )
     ]
-    
+
     opts = [strategy: :one_for_one, name: Football.Supervisor]
     Supervisor.start_link(children, opts)
   end

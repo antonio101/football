@@ -2,56 +2,26 @@ defmodule Distillery.Mixfile do
   use Mix.Project
 
   def project do
-    [
-      app: :distillery,
-      version: "2.0.12",
-      elixir: "~> 1.6",
-      build_embedded: Mix.env() == :prod,
-      start_permanent: Mix.env() == :prod,
-      deps: deps(),
-      description: description(),
-      package: package(),
-      docs: docs(),
-      aliases: aliases(),
-      elixirc_paths: elixirc_paths(Mix.env),
-      preferred_cli_env: [
-        docs: :docs,
-        "hex.publish": :docs,
-        "eqc.mini": :test,
-        coveralls: :test,
-        "coveralls.detail": :test,
-        "coveralls.html": :test,
-        "coveralls.json": :test,
-        "coveralls.post": :test,
-      ],
-      test_coverage: [tool: ExCoveralls],
-      test_paths: ["test/cases"],
-      dialyzer_warnings: [
-        :error_handling,
-        :race_conditions,
-        :underspecs,
-        :unknown
-      ],
-      dialyzer_ignored_warnings: [
-        {:warn_contract_supertype, :_, {:contract_supertype, [:_, :impl_for, 1, :_, :_]}},
-        {:warn_contract_supertype, :_, {:contract_supertype, [:_, :impl_for!, 1, :_, :_]}}
-      ]
-    ]
+    [app: :distillery,
+     version: "1.1.2",
+     elixir: "~> 1.3",
+     build_embedded: Mix.env == :prod,
+     start_permanent: Mix.env == :prod,
+     deps: deps(),
+     description: description(),
+     package: package(),
+     docs: docs(),
+     aliases: aliases(),
+     test_coverage: [tool: ExCoveralls]]
   end
 
-  def application do
-    [extra_applications: [:runtime_tools]]
-  end
+  def application, do: [applications: []]
 
   defp deps do
-    [
-      {:artificery, "~> 0.2"},
-      {:ex_doc, "~> 0.13", only: [:docs]},
-      {:excoveralls, "~> 0.6", only: [:test]},
-      {:eqc_ex, "~> 1.4", only: [:test]},
-      {:ex_unit_clustered_case, "~> 0.3", only: [:test], runtime: false},
-      {:dialyzex, "~> 1.2", only: [:dev], runtime: false}
-    ]
+    [{:ex_doc, "~> 0.13", only: [:dev]},
+     {:excoveralls, "~> 0.6", only: [:dev, :test]},
+     {:credo, github: "bitwalker/credo", branch: "spec-fix", only: [:dev]},
+     {:dialyze, "~> 0.2", only: [:dev]}]
   end
 
   defp description do
@@ -59,45 +29,35 @@ defmodule Distillery.Mixfile do
     Build releases of your Mix projects with ease!
     """
   end
-
   defp package do
-    [
-      files: ["lib", "priv", "mix.exs", "README.md", "LICENSE.md", ".formatter.exs"],
+    [ files: ["lib", "priv", "mix.exs", "README.md", "LICENSE.md"],
       maintainers: ["Paul Schoenfelder"],
       licenses: ["MIT"],
-      links: %{
-        Documentation: "https://hexdocs.pm/distillery",
-        Changelog: "https://hexdocs.pm/distillery/changelog.html",
-        GitHub: "https://github.com/bitwalker/distillery"
-      }
-    ]
+      links: %{"Github": "https://github.com/bitwalker/distillery"}]
   end
-
   defp aliases do
-    [
-      docs: [&mkdocs/1, "docs"],
-      c: ["compile", "format --check-equivalent"],
-      "compile-check": [
-        "compile",
-        "format --check-formatted --dry-run",
-        "dialyzer"
-      ],
-    ]
+    ["compile-check": "do compile, credo --strict"]
   end
-
-  defp mkdocs(_args) do
-    docs = Path.join([File.cwd!, "bin", "docs"])
-    {_, 0} = System.cmd(docs, ["build"], into: IO.stream(:stdio, :line))
-  end
-
   defp docs do
-    [
-      source_url: "https://github.com/bitwalker/distillery",
-      homepage_url: "https://github.com/bitwalker/distillery",
-      main: "home"
-    ]
+    [main: "getting-started",
+     extras: [
+       "docs/Getting Started.md",
+       "docs/CLI.md",
+       "docs/Configuration.md",
+       "docs/Runtime Configuration.md",
+       "docs/Walkthrough.md",
+       "docs/Use With Phoenix.md",
+       "docs/Phoenix Walkthrough.md",
+       "docs/Upgrades and Downgrades.md",
+       "docs/Use With systemd.md",
+       "docs/Common Issues.md",
+       "docs/Umbrella Projects.md",
+       "docs/Overlays.md",
+       "docs/Plugins.md",
+       "docs/Boot Hooks.md",
+       "docs/Custom Commands.md",
+       "docs/Shell Script API.md",
+       "docs/Terminology.md"
+     ]]
   end
-
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_), do: ["lib"]
 end

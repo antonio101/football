@@ -19,6 +19,7 @@ defmodule Credo.Check.Readability.MaxLineLength do
   @default_params [
     max_length: 120,
     ignore_definitions: true,
+    ignore_heredocs: true,
     ignore_specs: false,
     ignore_strings: true,
     ignore_urls: true
@@ -40,20 +41,17 @@ defmodule Credo.Check.Readability.MaxLineLength do
 
     ignore_specs = Params.get(params, :ignore_specs, @default_params)
     ignore_strings = Params.get(params, :ignore_strings, @default_params)
-    # TODO v1.0: this should be two different params
-    ignore_heredocs = ignore_strings
+    ignore_heredocs = Params.get(params, :ignore_heredocs, @default_params)
     ignore_urls = Params.get(params, :ignore_urls, @default_params)
 
     definitions = Credo.Code.prewalk(source_file, &find_definitions/2)
     specs = Credo.Code.prewalk(source_file, &find_specs/2)
 
-    source = SourceFile.source(source_file)
-
     source =
       if ignore_heredocs do
-        Heredocs.replace_with_spaces(source, "")
+        Heredocs.replace_with_spaces(source_file, "")
       else
-        source
+        SourceFile.source(source_file)
       end
 
     lines = Credo.Code.to_lines(source)
@@ -61,7 +59,7 @@ defmodule Credo.Check.Readability.MaxLineLength do
     lines_for_comparison =
       if ignore_strings do
         source
-        |> Strings.replace_with_spaces("")
+        |> Strings.replace_with_spaces("", " ", source_file.filename)
         |> Credo.Code.to_lines()
       else
         lines

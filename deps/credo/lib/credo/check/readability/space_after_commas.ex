@@ -35,6 +35,7 @@ defmodule Credo.Check.Readability.SpaceAfterCommas do
   use Credo.Check
 
   alias Credo.Code.Charlists
+  alias Credo.Code.Heredocs
   alias Credo.Code.Sigils
   alias Credo.Code.Strings
 
@@ -43,10 +44,10 @@ defmodule Credo.Check.Readability.SpaceAfterCommas do
     issue_meta = IssueMeta.for(source_file, params)
 
     source_file
-    |> SourceFile.source()
-    |> Sigils.replace_with_spaces()
-    |> Strings.replace_with_spaces()
-    |> Charlists.replace_with_spaces()
+    |> Sigils.replace_with_spaces(" ", " ", source_file.filename)
+    |> Strings.replace_with_spaces(" ", " ", source_file.filename)
+    |> Heredocs.replace_with_spaces(" ", " ", source_file.filename)
+    |> Charlists.replace_with_spaces(" ", " ", source_file.filename)
     |> String.replace(~r/(\A|[^\?])#.+/, "\\1")
     |> Credo.Code.to_lines()
     |> Enum.flat_map(&find_issues(issue_meta, &1))
