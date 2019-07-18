@@ -59,6 +59,8 @@ Football returns the following status codes in its API:
 
 ## Launch with Docker
 
+To run the project through Docker, you have to execute next orders in console:
+
 ```sh
 # docker login
 # docker pull "antonio101/football"
